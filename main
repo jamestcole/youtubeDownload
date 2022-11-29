@@ -1,0 +1,88 @@
+import pyautogui
+import clipboard
+import time
+import datetime
+from pytube import YouTube
+
+#The purpose of this code is to download a youtube video or music playlist
+#as you are watching it. the timer can be set to the most appropiate length
+#for the given playlist and by default , the code will attempt to download 20
+#times into your chosen directory. it will not download the same file twice.
+
+
+
+
+
+def countdown(s):
+    count = 20
+    print("countdown started")
+    total = s
+    l = []
+
+    while count >= 0:
+
+        pyautogui.click(10, 190)
+
+        pyautogui.press('f6')
+
+        pyautogui.hotkey('ctrl', 'c')
+        url = clipboard.paste()
+
+        count -= 1
+
+        total = s
+        while total != 0:
+            timer = datetime.timedelta(seconds = total)
+            time.sleep(1)
+            total -= 1
+        if url not in l:
+            l.append(url)
+            pyautogui.click(10, 190)
+
+            pyautogui.press('f6')
+
+            pyautogui.hotkey('ctrl', 'c')
+            url = clipboard.paste()
+            print("url downloading")
+
+            download(url)
+            print(count)
+            print(l)
+            total = s
+
+        elif url in l:
+
+            print("url already downloading")
+
+            print("timer complete")
+            print(count)
+            print(l)
+            total = s
+        #l.append(url)
+
+
+
+    print(timer)
+
+
+
+
+def download(url):
+    link = url
+    #means takes first command line as argument
+    yt = YouTube(link)
+
+    print("Title: ", yt.title)
+
+    print("View: ", yt.views)
+    l.append(url)
+    yd = yt.streams.get_highest_resolution()
+
+    yd.download('E:\Python Project\Youtube Project')
+
+
+l = []
+
+s = input("enter the time in seconds:")
+countdown(int(s))
+print(l)
